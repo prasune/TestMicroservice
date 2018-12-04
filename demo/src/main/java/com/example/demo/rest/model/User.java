@@ -1,6 +1,8 @@
 package com.example.demo.rest.model;
 
-import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -10,11 +12,21 @@ public class User {
 	
 	private String id;
 
-	private String name;
+	@NotNull(message="First name cannot be missing or empty")
+    @Size(min=2, message="First name must not be less than 2 characters")
+	private String firstName;
 	
-	private String type;
+	@NotNull(message="Last name cannot be missing or empty")
+    @Size(min=2, message="Last name must not be less than 2 characters")
+	private String lastName;
 	
-	private List<String> roles;
+	@Email
+	private String email;
+	
+	@NotNull(message="Password is a required field")
+    @Size(min=8, max=16, 
+    message="Password must be equal to or greater than 8 characters and less than 16 characters")
+	private String password;
 
 	public String getId() {
 		return id;
@@ -24,33 +36,41 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getType() {
-		return type;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public List<String> getRoles() {
-		return roles;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
 	public int hashCode() {
-		return ObjectUtils.nullSafeHashCode(id);
+		return ObjectUtils.nullSafeHashCode(this.id);
 	}
 
 	@Override
@@ -72,6 +92,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", type=" + type + ", roles=" + roles + "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ "]";
 	}	
 }

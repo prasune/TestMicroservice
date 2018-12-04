@@ -3,6 +3,7 @@ package com.example.demo.rest.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,9 @@ public class UserRestController {
 		if(id.equals("1")) {
 			User user = new User();
 			user.setId("1");
-			user.setName("prasune");
-			user.setType("Admin");
-			List<String> roles = new ArrayList<>();
-			roles.add("VIEW");
-			roles.add("MANAGE");
-			user.setRoles(roles);
+			user.setFirstName("prasune");
+			user.setLastName("ohn");
+			user.setEmail("prasune@somemail.com");
 			return user;
 		}
 		throw new IllegalArgumentException("User with id " + id + " not found");
@@ -47,12 +45,12 @@ public class UserRestController {
 
 	@RequestMapping(method = RequestMethod.POST, 
 			produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-	public User createUser(@RequestBody User user) throws JsonProcessingException {		
+	public User createUser(@Valid @RequestBody User user) throws JsonProcessingException {		
 		// store user to DB
 		
 		// publish a kafka message for notifying other micro-services
-		ObjectMapper mapper = new ObjectMapper();
-		kafkaTemplate.send(USER_TOPIC, user.getId(), mapper.writeValueAsString(user));
+		/*ObjectMapper mapper = new ObjectMapper();
+		kafkaTemplate.send(USER_TOPIC, user.getId(), mapper.writeValueAsString(user));*/
 		return user;
 	}
 }
