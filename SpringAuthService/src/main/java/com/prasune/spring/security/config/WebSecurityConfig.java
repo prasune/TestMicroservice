@@ -13,13 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.parentAuthenticationManager(authenticationManager)
-		.inMemoryAuthentication().passwordEncoder(getPasswordEncoder())
+		auth.inMemoryAuthentication().passwordEncoder(getPasswordEncoder())
 		.withUser("prasune").password("test").roles("ADMIN").and()
 		.withUser("liya").password("test").roles("VIEW_DATA").and()
 		.withUser("test").password("test").roles("NO_ACCESS");
